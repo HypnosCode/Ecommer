@@ -1,0 +1,142 @@
+{% extends 'Topi/scale.html' %}
+{% load static %}
+{% block content %}
+<div class="container">
+
+    <div class="row" style="margin-top: 20px;">
+        <div class="col-lg-6 col-md-6 col-sm-12 col-12" id='checkoutform'>
+            <form id="form">
+                <div id="user-info" style="margin-top: 20px;">
+                    <div id="form-field">
+                        <input required class="form-control" type="text" name="name" placeholder="Name.."
+                            value="{{ users.fname }} {{ users.lname }}">
+                    </div>
+                    <div id="form-field">
+                        <input required class="form-control" type="email" name="email" placeholder="Email.."
+                            value="{{ users.email }}">
+                    </div>
+                </div>
+
+                <div id="shipping-info">
+                    <hr>
+                    <p>Shipping Information:</p>
+                    <hr>
+                    <div id="form-field">
+                        <input class="form-control" type="text" name="address" placeholder="Address.."
+                            value="{{ users.address }}">
+                    </div>
+                    <div id="form-field">
+                        <input class="form-control" type="text" name="city" placeholder="City..">
+                    </div>
+                    <div id="form-field">
+                        <input class="form-control" type="text" name="state" placeholder="State.."
+                            value="{{ users.streetno }}">
+                    </div>
+                    <div id="form-field">
+                        <input class="form-control" type="text" name="zipcode" placeholder="Zip code.."
+                            value="{{ users.postalcode }}">
+                    </div>
+                </div>
+
+                <hr>
+                <input id="form-button" class="btn btn-dark" type="submit" value="Continue">
+            </form>
+            <br>
+        </div>
+        <div class=" col-lg-6 col-md-6 col-sm-12 col-12" id='checkoutform' style="border-left: 1px solid white;">
+            <a class="btn btn-dark" href="{% url 'Cart' %}">&#x2190; Back to Cart</a>
+            <hr>
+            <h3>Order Summary</h3>
+            <hr>
+            {% for item in items %}
+            <div class="cart-row">
+                <div style="flex:2"><img class="row-image" src="{{item.product.imageUrl}}"></div>
+                <div style="flex:2">
+                    <p>{{ item.product.name }}</p>
+                </div>
+                <div style="flex:1">
+                    <p>${{ item.product.price }}</p>
+                </div>
+                <div style="flex:1">
+                    <p>x{{ item.qunatity }}</p>
+                </div>
+            </div>
+            {% endfor %}
+            <h5>Items : {{ order.get_cart_items }}</h5>
+            <h5>Total : ${{ order.get_cart_total|floatformat:2 }}</h5>
+        </div>
+    </div>
+</div>
+<div class="container" style="margin-top: 10px; padding: 0px;">
+
+    <div class="col-lg-6 col-md-6 col-sm-12 col-12" style="width: 100%; margin: 0px; padding: 0px;">
+        <div id="payment-info" class="hidden" style="border: 1px solid black; padding: 20px;">
+            <small>Paypal Options</small>
+            <button id="searchbtn" style="width : 120px;" onclick="submitFormData()">Make Payment</button>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    var shipping = '{{ order.shipping }}'
+    var total = '{{ order.get_cart_total|floatformat:2 }}'
+    var form = document.getElementById('form')
+    form.addEventListener('submit', function (e) {
+        e.preventDefault()
+        document.getElementById('form-button').classList.add('hidden');
+        document.getElementById('payment-info').classList.remove('hidden');
+    })
+
+    function submitFormData() {
+        console.log('Hello')
+
+        var userFormData = {
+            'name': null,
+            'email': null,
+            'total': total
+        }
+
+        var shippingInfo = {
+            'address': null,
+            'city': null,
+            'zipcode': null,
+            'state': null
+        }
+
+        if (shipping != 'False') {
+            shippingInfo.address = form.address.value
+            shippingInfo.city = form.city.value
+            shippingInfo.state = form.state.value
+            shippingInfo.zipcode = form.zipcode.value
+        }
+
+        if (user == 'AnonymousUser') {
+            userFormData.name = form.name.value
+            userFormData.email = form.email.value
+        }
+        var url = '/process_order/'
+        fetch(url, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': csrftoken,
+            },
+            body: JSON.stringify({ 'form': userFormData, 'shipping': shippingInfo }),
+        })
+            .then((response) => response.json())
+            .then((data) => {
+                console.log('Success:', data)
+                alert('Transaction completed')
+                cart = {}
+                document.cookie = 'cart=' + JSON.stringify(cart) +';doamin=;path=/'
+                window.location.href = "{% url 'Index' %}"
+            })
+    }
+
+
+    // cart = {}
+    // document.cookie = 'carts=' + JSON.stringify(cart) + ";domain=;path=/"
+
+    // window.location.href = "{% url 'Index' %}"
+
+</script>
+{% endblock %}

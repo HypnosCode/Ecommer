@@ -1,0 +1,48 @@
+{% load static %}
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Nameste Biste</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'Topi/css/bootstrap.min.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'Topi/css/mdb.min.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'Topi/css/login.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'Topi/css/custom.css' %}">
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="{% static 'Topi/js/jquery.min.js' %}"></script>
+    <script src="{% static 'Topi/js/mdb.min.js' %}"></script>
+    <script src="{% static 'Topi/js/popper.min.js' %}"></script>
+    <script src="{% static 'Topi/js/tooltip.min.js' %}"></script>
+    <script src="{% static 'Topi/js/bootstrap.min.js' %}"></script>
+
+    <script src="https://kit.fontawesome.com/c7a404bbce.js" crossorigin="anonymous"></script>
+</head>
+
+<body>
+    <div class="container-fluid" style="background-color: black;">
+        <div class="row">
+            <div class="col-lg-4 col-md-4 col-sm-6 col-5" style="font-size: 18px; overflow: hidden; color : white;">
+                <a href="#"><i class="fab fa-facebook-f" style="margin-left: 30%;"></i></a>
+                <a href="#"><i class="fab fa-instagram" style="margin-left: 10px;"></i></a>
+                <a href="#"><i class="fab fa-pinterest-p" style="margin-left: 10px;"></i></a>
+            </div>
+            <div class="col-lg-4 col-md-4 d-none d-lg-block text-center"
+                style="font-size: 14px; margin-top: 2px; color : white;">
+                <i>Best Colthes From Nepal</i>
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-6 col-7 " style="font-size: 14px; overflow: hidden; color : white;">
+                Fashion Yourself
+            </div>
+
+        </div>
+    </div>
+
+    {% include 'Login/Navigation.html' %}
+
+    {% block content %}
+    {% endblock %}
+</body>
+
+</html>
