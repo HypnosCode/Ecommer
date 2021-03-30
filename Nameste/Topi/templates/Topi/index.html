@@ -1,0 +1,68 @@
+{% extends 'Topi/scale.html' %}
+{% load static %}
+{% block content %}
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="img">
+            <div class="d-none d-lg-block">
+                <div class="row overlay">
+                    <div class="col-lg-4" style="border-right: 1px solid white; height: 100px;">
+                        <i class=" fas fa-shipping-fast"
+                            style="margin-top: 30px; font-size: 45px; opacity: 1;"></i>&nbsp;&nbsp;
+                        <i style="font-size: 20px; position: absolute; top: 20px;">
+                            Express Shipping</i>
+                        <i>We provide fast delivery service</i>
+                    </div>
+                    <div class="col-lg-4" style="border-right: 1px solid white; height: 100px;">
+                        <i class="far fa-money-bill-alt"
+                            style="margin-top: 30px; font-size: 45px; opacity: 1;"></i>&nbsp;&nbsp;</i>
+                        <i style="font-size: 20px; position: absolute; top: 20px; ">
+                            Online Payment</i>
+                        <i>We provide fast delivery service</i>
+                    </div>
+                    <div class="col-lg-4">
+                        <i class="fas fa-recycle" style="margin-top: 30px; font-size: 45px; opacity: 1;"></i>
+                        <i style="font-size: 20px; position: absolute; top: 20px;">
+                            Guarantee</i>
+                        <i>We provide fast delivery service</i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container" id="products">
+    <div class="row">
+        <div class="container">
+            {% include 'Topi/secnav.html' %}
+        </div>
+    </div>
+    <div class="container-fluid">
+        <div class="row">
+            {% for obj in productobj %}
+            <div class="col-lg-4 col-md-6">
+                <div class="card" id="cards">
+                    <img src="{{ obj.image.url }}" height="200px" width="200px" class="card-img-top" alt="...">
+                    <div class="card-body">
+                        <h4 class="card-header justify-content-center">{{ obj.name }}</h4>
+                        <p class="card-body">
+                        <p class="justify-content-center"
+                            style="font-size: 18px; color: rgb(70, 70, 70); text-align: center;"> &#163; {{ obj.price}}
+                        </p>
+                        <button id="cartbutton" class="update-cart" data-product="{{ obj.id }}" data-action="add"
+                            style="margin-left: 25px;"><i class="fas fa-cart-plus"></i>
+                            Cart</button>
+                        <button id="cartbutton"><i class="fas fa-heart"></i> Wishlist</button>
+                        </p>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+
+
+{% endblock %}
